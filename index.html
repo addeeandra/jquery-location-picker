@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Map Picker Demo</title>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<body>
+
+		<div class="container" style="width: 480px; margin-top: 64px;"> 
+
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label>Shop Name</label>
+					<input class="form-control" type="text" name="shop_name">
+				</div>
+
+				<div class="form-group">
+					<label>Location</label>
+					<div id="map" data-height="320"></div>
+				</div>
+
+				<div class="form-group">
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+
+			<div id="example"></div>
+
+		</div>
+
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="jquery-location-picker.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC162eW1sOYifR7S9wZbD8iAqQ4D2A4-bg"></script>
+		<script type="text/javascript">
+			$(function () {
+
+				$('#map').locationPicker();
+
+				$('form').submit(function (e) {
+					e.preventDefault();
+
+					var target = e.target;
+					$(example).html(
+						"Latitude : " + target.latitude.value + '<br>' +
+						"Longitude : " + target.longitude.value
+					);
+				});
+
+			});
+		</script>
+	</body>
+</html>
