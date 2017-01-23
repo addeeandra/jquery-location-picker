@@ -8,7 +8,7 @@
 
 		<div class="container" style="width: 480px; margin-top: 64px;"> 
 
-			<form class="form-horizontal">
+			<form class="form-horizontal" method="GET">
 				<div class="form-group">
 					<label>Shop Name</label>
 					<input class="form-control" type="text" name="shop_name">
@@ -35,17 +35,18 @@
 		<script type="text/javascript">
 			$(function () {
 
-				// just call $(el).locationPicker()
-				$('#map').locationPicker();
-
-				$('form').submit(function (e) {
-					e.preventDefault();
-
-					var target = e.target;
-					$(example).html(
-						"Latitude : " + target.latitude.value + '<br>' +
-						"Longitude : " + target.longitude.value
+				function example(lat, lng) {
+					$("#example").html(
+						"Latitude : " + lat + '<br>' +
+						"Longitude : " + lng
 					);
+				}
+
+				// just call $(el).locationPicker()
+				$('#map').locationPicker({}, {
+					click: function (latlng) {
+						example(latlng.lat, latlng.lng);
+					}
 				});
 
 			});
