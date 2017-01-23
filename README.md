@@ -30,11 +30,24 @@ The default names of latitude input and longitude input is `latitude` and `longi
 <input type="hidden" name="longitude">
 ```
 
-##### MapOptions is optional, read more at [GoogleMap JS API](https://developers.google.com/maps/documentation/javascript/)
-
-##### Options :
+MapOptions is optional, read more at [GoogleMap JS API](https://developers.google.com/maps/documentation/javascript/)
 ```js
 {
-  height: 320
+  center: {
+    lat: -7.259258,
+    lng: 112.7931297
+   },
+   scrollwheel: true,
+   zoom: 17
+}
+```
+
+Options :
+```js
+{
+  height: 320,
+  click: function (latlng) {
+    console.log(latlng);
+  }
 }
 ```
