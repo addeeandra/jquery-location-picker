@@ -51,3 +51,7 @@ Options :
   }
 }
 ```
+
+## Demo
+To use demo, replace 'your_api_key_here' with your API Key.
+Read more [GoogleMap API](https://developers.google.com/maps/)
