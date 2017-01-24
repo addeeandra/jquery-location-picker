@@ -20,18 +20,18 @@ $(function ( $ ) {
 		}, options);
 
 		// setup latitude input field
-		setting.latInput = $(document.createElement('input'))
+		settings.latInput = $(document.createElement('input'))
 			.attr('type', 'hidden')
 			.attr('name', settings.latInputName)
 			.addClass('location-picker-input-latitude')
-			.val(settings.mapOptions.center.lng);
+			.val(settings.mapOptions.center.lat);
 
 		// setup longitude input field
-		setting.latInput = $(document.createElement('input'))
+		settings.lngInput = $(document.createElement('input'))
 			.attr('type', 'hidden')
-			.attr('name', settings.latInputName)
+			.attr('name', settings.lngInputName)
 			.addClass('location-picker-input-longitude')
-			.val(settings.mapOptions.center.lat);
+			.val(settings.mapOptions.center.lng);
 
 		// setup map element
 		settings.mapElement = $(document.createElement('div'))

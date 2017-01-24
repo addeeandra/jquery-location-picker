@@ -32,7 +32,7 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="jquery-location-picker.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=your_api_key_here"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC162eW1sOYifR7S9wZbD8iAqQ4D2A4-bg"></script>
 		<script type="text/javascript">
 			$(function () {
 
@@ -47,7 +47,9 @@
 				$('#map').locationPicker({}, {
 					click: function (latlng) {
 						example(latlng.lat, latlng.lng);
-					}
+					},
+					latInputName: 'my_latitude',
+					lngInputName: 'my_longitude'
 				});
 
 			});
