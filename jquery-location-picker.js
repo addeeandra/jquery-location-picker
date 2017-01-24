@@ -12,6 +12,7 @@ $(function ( $ ) {
 			latInputName: 'latitude',
 			lngInputName: 'longitude',
 			click: function () {},
+			change: function () {},
 
 			map: null,
 			latInput: null,
@@ -76,6 +77,7 @@ $(function ( $ ) {
 		settings.map.addListener('click', function (e) {
 			var selectedLocation = { lat: e.latLng.lat(), lng: e.latLng.lng() };
 			settings.click(selectedLocation);
+			settings.change(selectedLocation);
 			
 			// reset marker position
 			settings.marker.setMap(null);
@@ -110,6 +112,10 @@ $(function ( $ ) {
 				title: place.name
 			});
 
+			// set value of input
+			settings.latInput.val(place.geometry.location.lat());
+			settings.lngInput.val(place.geometry.location.lng());
+
 			if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -117,6 +123,7 @@ $(function ( $ ) {
               bounds.extend(place.geometry.location);
             }
 
+			settings.change({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
             settings.map.fitBounds(bounds);
 		});
 

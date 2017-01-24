@@ -45,7 +45,7 @@
 
 				// just call $(el).locationPicker()
 				$('#map').locationPicker({}, {
-					click: function (latlng) {
+					change: function (latlng) {
 						example(latlng.lat, latlng.lng);
 					},
 					latInputName: 'my_latitude',
