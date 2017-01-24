@@ -9,18 +9,41 @@ $(function ( $ ) {
 				zoom: 17
 			}, mapOptions),
 			height: 320,
-			latInput: $(document.createElement('input')).attr('type', 'hidden').attr('name', 'latitude').addClass('location-picker-input-latitude'),
-			lngInput: $(document.createElement('input')).attr('type', 'hidden').attr('name', 'longitude').addClass('location-picker-input-longitude'),
-			mapElement: $(document.createElement('div')),
-			click: function () {}
+			latInputName: 'latitude',
+			lngInputName: 'longitude',
+			click: function () {},
+
+			map: null,
+			latInput: null,
+			lngInput: null,
+			mapElement: null
 		}, options);
 
-		settings.mapElement.css({ height: settings.height });
+		// setup latitude input field
+		setting.latInput = $(document.createElement('input'))
+			.attr('type', 'hidden')
+			.attr('name', settings.latInputName)
+			.addClass('location-picker-input-latitude')
+			.val(settings.mapOptions.center.lng);
+
+		// setup longitude input field
+		setting.latInput = $(document.createElement('input'))
+			.attr('type', 'hidden')
+			.attr('name', settings.latInputName)
+			.addClass('location-picker-input-longitude')
+			.val(settings.mapOptions.center.lat);
+
+		// setup map element
+		settings.mapElement = $(document.createElement('div'))
+			.css({ height: settings.height });
+
+		// appending inputs and map element
 		this.css({ height: settings.height })
 			.append(settings.mapElement)
 			.append(settings.latInput)
 			.append(settings.lngInput);
 
+		// setup map and marker
 		settings.map = new google.maps.Map(settings.mapElement[0], settings.mapOptions);
 		settings.marker = new google.maps.Marker({
 			position: settings.mapOptions.center,
@@ -35,9 +58,6 @@ $(function ( $ ) {
 			settings.latInput.val(e.latLng.lat());
 			settings.lngInput.val(e.latLng.lng());
 		});
-
-		settings.latInput.val(settings.mapOptions.center.lat);
-		settings.lngInput.val(settings.mapOptions.center.lng);
 
 		return this;
 	};
