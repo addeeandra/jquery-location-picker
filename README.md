@@ -48,8 +48,10 @@ Options (optional) :
 ```js
 {
   height: 320,
-  latInputName: 'latitude',
-  lngInputName: 'longitude',
+  latInputName: 'latitude', // no effect when use with latInput
+  lngInputName: 'longitude',  // no effect when use with lngInput
+  latInput: $('#my-latitude'),
+  lngInput: $('#my-longitude'),
   click: function (latlng) {}, // triggered when map clicked
   change: function (latlng) {} // triggered when latlng changed (including change after searching)
 }

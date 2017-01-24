@@ -39,21 +39,30 @@ $(function ( $ ) {
 			}
 		}, options);
 
+		this.css({ height: settings.height });
+
 		// setup map element
 		settings.mapElement = $(document.createElement('div'))
 			.css({ height: settings.height });
+		this.append(settings.mapElement);
 
 		// setup latitude input field
-		settings.latInput = $(document.createElement('input'))
-			.attr('type', 'hidden')
-			.attr('name', settings.latInputName)
-			.addClass('location-picker-input-latitude');
+		if (settings.latInput == null) {
+			settings.latInput = $(document.createElement('input'))
+				.attr('type', 'hidden')
+				.attr('name', settings.latInputName)
+				.addClass('location-picker-input-latitude');
+			this.append(settings.latInput);
+		}
 
 		// setup longitude input field
-		settings.lngInput = $(document.createElement('input'))
-			.attr('type', 'hidden')
-			.attr('name', settings.lngInputName)
-			.addClass('location-picker-input-longitude');
+		if (settings.lngInput == null) {
+			settings.lngInput = $(document.createElement('input'))
+				.attr('type', 'hidden')
+				.attr('name', settings.lngInputName)
+				.addClass('location-picker-input-longitude');
+			this.append(settings.lngInput);
+		}
 
 		// setup searchbox
 		settings.searchInput = $(document.createElement('input'))
@@ -67,13 +76,7 @@ $(function ( $ ) {
 				borderRadius: '2px',
 				boxShadow: '0px 2px 1px #c0c0c0'
 			});
-
-		// appending inputs and map element
-		this.css({ height: settings.height })
-			.append(settings.searchInput)
-			.append(settings.mapElement)
-			.append(settings.latInput)
-			.append(settings.lngInput);
+		this.append(settings.searchInput);
 
 		// setup map & searchbox
 		settings.map = new google.maps.Map(settings.mapElement[0], settings.mapOptions);

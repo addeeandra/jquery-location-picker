@@ -17,6 +17,16 @@
 				<div class="form-group">
 					<label>Location</label>
 					<div id="map" data-height="320"></div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<input id="input-latitude" class="form-control" type="text" name="latitude" readonly>
+						</div>
+						<div class="col-md-6">
+							<input id="input-longitude" class="form-control" type="text" name="longitude" readonly>
+						</div>
+					</div>
 					<span class="help-block">if map not showed, please see the source code and replace 'your_api_key_here' with yours api</span>
 				</div>
 
@@ -48,8 +58,8 @@
 					change: function (latlng) {
 						example(latlng.lat, latlng.lng);
 					},
-					latInputName: 'my_latitude',
-					lngInputName: 'my_longitude'
+					latInput: $('#input-latitude'),
+					lngInput: $('#input-longitude')
 				});
 
 			});
