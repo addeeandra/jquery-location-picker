@@ -18,7 +18,25 @@ $(function ( $ ) {
 			latInput: null,
 			lngInput: null,
 			searchInput: null,
-			mapElement: null
+			mapElement: null,
+			changeLocation: function (lat, lng) {
+				if (this.latInput && this.lngInput) {
+					if (this.marker) {
+						this.marker.setMap(null);
+					}
+
+					this.marker = null;
+					this.marker = new google.maps.Marker({
+						map: this.map,
+						position: { lat: lat, lng: lng },
+						title: 'Picked Location'
+					});
+
+					this.latInput.val(lat);
+					this.lngInput.val(lng);
+					this.change({ lat: lat, lng: lng });
+				}
+			}
 		}, options);
 
 		// setup map element
@@ -29,15 +47,13 @@ $(function ( $ ) {
 		settings.latInput = $(document.createElement('input'))
 			.attr('type', 'hidden')
 			.attr('name', settings.latInputName)
-			.addClass('location-picker-input-latitude')
-			.val(settings.mapOptions.center.lat);
+			.addClass('location-picker-input-latitude');
 
 		// setup longitude input field
 		settings.lngInput = $(document.createElement('input'))
 			.attr('type', 'hidden')
 			.attr('name', settings.lngInputName)
-			.addClass('location-picker-input-longitude')
-			.val(settings.mapOptions.center.lng);
+			.addClass('location-picker-input-longitude');
 
 		// setup searchbox
 		settings.searchInput = $(document.createElement('input'))
@@ -59,14 +75,8 @@ $(function ( $ ) {
 			.append(settings.latInput)
 			.append(settings.lngInput);
 
-		// setup map and marker
+		// setup map & searchbox
 		settings.map = new google.maps.Map(settings.mapElement[0], settings.mapOptions);
-		settings.marker = new google.maps.Marker({
-			map: settings.map,
-			position: settings.mapOptions.center,
-			title: 'Picked Location'
-		});
-
 		var searchBox = new google.maps.places.SearchBox(settings.searchInput[0]);
 		settings.map.controls[google.maps.ControlPosition.TOP_LEFT].push(settings.searchInput[0]);
 
@@ -75,22 +85,9 @@ $(function ( $ ) {
 		});
 
 		settings.map.addListener('click', function (e) {
-			var selectedLocation = { lat: e.latLng.lat(), lng: e.latLng.lng() };
-			settings.click(selectedLocation);
-			settings.change(selectedLocation);
-			
-			// reset marker position
-			settings.marker.setMap(null);
-			settings.marker = null;
-			settings.marker = new google.maps.Marker({
-				map: settings.map,
-				position: selectedLocation,
-				title: 'Picked Location'
-			});
-
-			// set value of input
-			settings.latInput.val(e.latLng.lat());
-			settings.lngInput.val(e.latLng.lng());
+			var location = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+			settings.click(location);
+			settings.changeLocation(location.lat, location.lng);
 		});
 
 		searchBox.addListener('places_changed', function () {
@@ -103,18 +100,7 @@ $(function ( $ ) {
 			var bounds = new google.maps.LatLngBounds();
 			var place = places[0]; // get only one place result
 
-			// reset marker position
-			settings.marker.setMap(null);
-			settings.marker = null;
-			settings.marker = new google.maps.Marker({
-				map: settings.map,
-				position: place.geometry.location,
-				title: place.name
-			});
-
-			// set value of input
-			settings.latInput.val(place.geometry.location.lat());
-			settings.lngInput.val(place.geometry.location.lng());
+			settings.changeLocation(place.geometry.location.lat(), place.geometry.location.lng());
 
 			if (place.geometry.viewport) {
               // Only geocodes have viewport.
@@ -123,9 +109,11 @@ $(function ( $ ) {
               bounds.extend(place.geometry.location);
             }
 
-			settings.change({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
             settings.map.fitBounds(bounds);
 		});
+
+		// first initialie
+		settings.changeLocation(settings.mapOptions.center.lat, settings.mapOptions.center.lng);
 
 		return this;
 	};
