@@ -6,7 +6,7 @@
 	</head>
 	<body>
 
-		<div class="container" style="width: 480px; margin-top: 64px;"> 
+		<div class="container" style="width: 480px; margin-top: 32px;"> 
 
 			<form class="form-horizontal" method="GET">
 				<div class="form-group">
@@ -19,15 +19,7 @@
 					<div id="map" data-height="320"></div>
 				</div>
 				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<input id="input-latitude" class="form-control" type="text" name="latitude" readonly>
-						</div>
-						<div class="col-md-6">
-							<input id="input-longitude" class="form-control" type="text" name="longitude" readonly>
-						</div>
-					</div>
-					<span class="help-block">if map not showed, please see the source code and replace 'your_api_key_here' with yours api</span>
+					<span class="help-block">if map not showed, please see the source code and replace 'your_api_key_here' with yours api key</span>
 				</div>
 
 				<div class="form-group">
@@ -35,31 +27,18 @@
 				</div>
 			</form>
 
-			<div id="example"></div>
-
 		</div>
 
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="jquery-location-picker.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=your_api_key&libraries=places"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC162eW1sOYifR7S9wZbD8iAqQ4D2A4-bg&libraries=places"></script>
 		<script type="text/javascript">
 			$(function () {
 
-				function example(lat, lng) {
-					$("#example").html(
-						"Latitude : " + lat + '<br>' +
-						"Longitude : " + lng
-					);
-				}
-
 				// just call $(el).locationPicker()
 				$('#map').locationPicker({}, {
-					change: function (latlng) {
-						example(latlng.lat, latlng.lng);
-					},
-					latInput: $('#input-latitude'),
-					lngInput: $('#input-longitude')
+					showInfo: true
 				});
 
 			});

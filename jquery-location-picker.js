@@ -11,35 +11,48 @@ $(function ( $ ) {
 			height: 320,
 			latInputName: 'latitude',
 			lngInputName: 'longitude',
+			addressInputName: 'address',
 			click: function () {},
 			change: function () {},
 
 			map: null,
 			latInput: null,
 			lngInput: null,
+			addressInput: null,
 			searchInput: null,
 			mapElement: null,
+			showInfo: false,
 			changeLocation: function (lat, lng) {
-				if (this.latInput && this.lngInput) {
-					if (this.marker) {
-						this.marker.setMap(null);
+				var that = this;
+				if (that.latInput && that.lngInput) {
+					if (that.marker) {
+						that.marker.setMap(null);
 					}
 
-					this.marker = null;
-					this.marker = new google.maps.Marker({
-						map: this.map,
+					that.marker = null;
+					that.marker = new google.maps.Marker({
+						map: that.map,
 						position: { lat: lat, lng: lng },
 						title: 'Picked Location'
 					});
 
-					this.latInput.val(lat);
-					this.lngInput.val(lng);
-					this.change({ lat: lat, lng: lng });
+					that.latInput.val(lat);
+					that.lngInput.val(lng);
+					that.change({ lat: lat, lng: lng });
+
+					$.get(
+						'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng,
+						function (data) {
+							that.addressInput.val(data.results[0].formatted_address);
+						}
+					);
+
+					// http://maps.googleapis.com/maps/api/geocode/json?latlng=44.4647452,7.3553838&sensor=true
 				}
 			}
 		}, options);
 
-		this.css({ height: settings.height });
+		this.css({ MinHeight: settings.height });
 
 		// setup map element
 		settings.mapElement = $(document.createElement('div'))
@@ -49,20 +62,35 @@ $(function ( $ ) {
 		// setup latitude input field
 		if (settings.latInput == null) {
 			settings.latInput = $(document.createElement('input'))
-				.attr('type', 'hidden')
+				.attr('type', settings.showInfo ? 'text' : 'hidden')
 				.attr('name', settings.latInputName)
-				.addClass('location-picker-input-latitude');
+				.attr('readonly', '')
+				.css({ borderRadius: 0, display: 'inline-block', width: "50%" })
+				.addClass('location-picker-co-input-latitude form-control');
 			this.append(settings.latInput);
 		}
 
 		// setup longitude input field
 		if (settings.lngInput == null) {
 			settings.lngInput = $(document.createElement('input'))
-				.attr('type', 'hidden')
+				.attr('type', settings.showInfo ? 'text' : 'hidden')
 				.attr('name', settings.lngInputName)
-				.addClass('location-picker-input-longitude');
+				.attr('readonly', '')
+				.css({ borderRadius: 0, display: 'inline-block', width: "50%" })
+				.addClass('location-picker-co-input-longitude form-control');
 			this.append(settings.lngInput);
 		}
+
+		// setup longitude input field
+		if (settings.addressInput == null) {
+			settings.addressInput = $(document.createElement('input'))
+				.attr('type', settings.showInfo ? 'text' : 'hidden')
+				.attr('name', settings.addressInputName)
+				.attr('readonly', '')
+				.css({ borderRadius: 0 })
+				.addClass('location-picker-input-address form-control')
+		}
+		this.append(settings.addressInput);
 
 		// setup searchbox
 		settings.searchInput = $(document.createElement('input'))
